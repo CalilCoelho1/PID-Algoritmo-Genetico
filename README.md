@@ -1,1 +1,0 @@
-# PID-Algoritmo-Gen-tico
