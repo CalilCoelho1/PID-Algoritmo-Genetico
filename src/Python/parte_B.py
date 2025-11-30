@@ -15,7 +15,7 @@ import os
 # ============================================================
 # CONFIGURAÇÃO DE DIRETÓRIOS
 # ============================================================
-RESULTS_DIR = r"C:\Users\Calil\Documents\VIDA\Faculdade\2025.2\Controle Digital\AV3\Controle_Analogico\Results\Results-ParteB"
+RESULTS_DIR = r"C:\Users\Calil\Documents\VIDA\Faculdade\2025.2\Controle Digital\AV3\ControleDigital_PID\PID-Algoritmo-Gen-tico\Results\Results-ParteB"
 os.makedirs(RESULTS_DIR, exist_ok=True)
 
 print("="*80)
@@ -137,6 +137,7 @@ if cond4:
     
     cond5 = np.abs(c2) > np.abs(c0)
 else:
+    c2, c1, c0 = 0, 0, 0
     cond5 = False
 
 jury_estavel = cond1 and cond2 and cond3 and cond4 and cond5
@@ -276,6 +277,76 @@ plt.tight_layout()
 graph_path = os.path.join(RESULTS_DIR, 'parte_b_resultado_final.png')
 plt.savefig(graph_path, dpi=300)
 print(f"Grafico salvo em: {graph_path}")
+
+plt.close()
+
+# ============================================================
+# TABELA DE JURY VISUAL
+# ============================================================
+fig_jury = plt.figure(figsize=(12, 8))
+ax_jury = fig_jury.add_subplot(111)
+ax_jury.axis('off')
+
+# Dados da tabela
+table_data = []
+
+# Linha 0 (Polinomio original)
+table_data.append(['Linha 0', f'{1:.6f}', f'{a3:.6f}', f'{a2:.6f}', f'{a1:.6f}', f'{a0:.6f}'])
+table_data.append(['Linha 0*', f'{a0:.6f}', f'{a1:.6f}', f'{a2:.6f}', f'{a3:.6f}', f'{1:.6f}'])
+
+# Linha 1
+table_data.append(['Linha 1', f'{b3:.6f}', f'{b2:.6f}', f'{b1:.6f}', f'{b0:.6f}', ''])
+table_data.append(['Linha 1*', f'{b0:.6f}', f'{b1:.6f}', f'{b2:.6f}', f'{b3:.6f}', ''])
+
+# Linha 2
+table_data.append(['Linha 2', f'{c2:.6f}', f'{c1:.6f}', f'{c0:.6f}', '', ''])
+table_data.append(['Linha 2*', f'{c0:.6f}', f'{c1:.6f}', f'{c2:.6f}', '', ''])
+
+# Criar tabela
+table = ax_jury.table(cellText=table_data,
+                      colLabels=['', 'col 0', 'col 1', 'col 2', 'col 3', 'col 4'],
+                      cellLoc='center',
+                      loc='center',
+                      bbox=[0, 0.3, 1, 0.6])
+
+table.auto_set_font_size(False)
+table.set_fontsize(10)
+table.scale(1, 2)
+
+# Colorir header
+for i in range(6):
+    table[(0, i)].set_facecolor('#4CAF50')
+    table[(0, i)].set_text_props(weight='bold', color='white')
+
+# Colorir linhas alternadas
+for i in range(1, len(table_data) + 1):
+    if i % 2 == 0:
+        for j in range(6):
+            table[(i, j)].set_facecolor('#f0f0f0')
+
+# Titulo e condicoes
+title_text = 'TABELA DE JURY - CRITERIO DE ESTABILIDADE (n=4)'
+ax_jury.text(0.5, 0.95, title_text, ha='center', va='top', fontsize=14, fontweight='bold')
+
+# Condicoes
+cond_text = f"""CONDIÇÕES NECESSÁRIAS:
+✓ P(1) > 0: {cond1} ({P_1:.6f})
+✓ P(-1) > 0: {cond2} ({P_minus1:.6f})
+✓ |a₀| < 1: {cond3} ({np.abs(a0):.6f})
+
+CONDIÇÕES DA TABELA:
+✓ |b₃| > |b₀|: {cond4} (|{b3:.6f}| > |{b0:.6f}|)
+✓ |c₂| > |c₀|: {cond5} (|{c2:.6f}| > |{c0:.6f}|)
+
+RESULTADO: {'✓ SISTEMA ESTÁVEL' if jury_estavel else '✗ SISTEMA INSTÁVEL'}"""
+
+ax_jury.text(0.5, 0.20, cond_text, ha='center', va='top', fontsize=11, 
+             family='monospace', bbox=dict(boxstyle='round', facecolor='lightyellow', alpha=0.8))
+
+plt.tight_layout()
+jury_graph_path = os.path.join(RESULTS_DIR, 'tabela_jury.png')
+plt.savefig(jury_graph_path, dpi=300, bbox_inches='tight')
+print(f"Tabela de Jury salva em: {jury_graph_path}")
 
 plt.close()
 

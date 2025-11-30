@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Algoritmo Genético para Otimização de Controlador PID Digital
+Algoritmo Genético para Otimização de Controlador PID DigitalGIT
 """
 
 import numpy as np
@@ -14,7 +14,7 @@ import os
 # ============================================================
 # CONFIGURAÇÃO DE DIRETÓRIOS
 # ============================================================
-RESULTS_DIR = r"C:\Users\Calil\Documents\VIDA\Faculdade\2025.2\Controle Digital\AV3\Controle_Analogico\Results\algoritmo_genetico"
+RESULTS_DIR = r"C:\Users\Calil\Documents\VIDA\Faculdade\2025.2\Controle Digital\AV3\ControleDigital_PID\PID-Algoritmo-Gen-tico\Results\algoritmo_genetico"
 os.makedirs(RESULTS_DIR, exist_ok=True)
 
 # ============================================================
@@ -48,7 +48,7 @@ KD_MAX = 0.8
 # ============================================================
 # SISTEMA E ESPECIFICAÇÕES
 # ============================================================
-Ts = 0.01  # Período de amostragem (100 Hz)
+Ts = 0.01  # Período de amostragem 
 B1, A1, A0 = 0.3246, -1.999, 0.9985  # Coeficientes da planta discreta
 Gz = ct.tf([B1, 0], [1, A1, A0], Ts)
 
@@ -58,7 +58,7 @@ TS_MIN = 2.2
 TS_MAX = 2.9
 UNDERSHOOT_MAX = 0.03
 
-TS_CRITERION = 0.02  # Banda de settling (±2%)
+TS_CRITERION = 0.02  # Banda de settling 
 
 print("="*70)
 print("ALGORITMO GENETICO - OTIMIZACAO PID")
