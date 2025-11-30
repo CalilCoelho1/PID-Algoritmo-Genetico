@@ -1,1 +1,1 @@
-# PID-Algoritmo-Gen-tico
+# PID-Algoritmo-Genético
